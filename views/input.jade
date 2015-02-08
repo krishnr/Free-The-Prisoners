@@ -9,12 +9,44 @@ block body_content
           li When you are ready to begin reading the order, say "Start"
           li Clearly read the numbers in order (eg. "1  4  3  2  1")
           li Say "Reset" at any time if you made a mistake
-          li When all the numbers show up properly, say "End" to send the instructions off to the server
+          li When all the numbers show up properly, say "Send" to send the instructions off to the server
 
         p <strong> Input: </strong>
-        div.input
+        div#input
   
   script(src="/socket.io/socket.io.js")
   script(src="http://code.jquery.com/jquery-1.11.1.js")
+  script(src="//cdnjs.cloudflare.com/ajax/libs/annyang/1.5.0/annyang.min.js")
   script(type="text/javascript").
     var socket = io('localhost:3000/input');
+    var inputString = "";
+
+    if (annyang) {
+
+      var record = function(input) {
+        inputString = input;
+        $('#input').text(input);
+      }
+  
+      var reset = function() {
+        inputString = ""
+        $('#input').text("");
+      }
+
+      var send = function() {
+        inputArray = inputString.split("");
+        for(var i=0; i<inputArray.length; i++) { inputArray[i] = parseInt(inputArray[i]); }
+        socket.emit('voice-input', inputArray);
+        $('#input').text("Sent to server!");
+      }
+
+      var commands = {
+        'start *input': record,
+        'reset': reset,
+        'send': send
+      };
+
+      annyang.addCommands(commands);
+
+      annyang.start(); 
+    }

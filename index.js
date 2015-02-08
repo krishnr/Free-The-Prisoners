@@ -16,8 +16,7 @@ var users = {
   'prisoners': 0
 };
 
-// Hard coded order
-var order = [4, 2, 1, 3, 1, 2];
+var order = [];
 
 // Array of prisoner socket ids
 var prisoners = [];
@@ -49,6 +48,12 @@ var input_socket = io.of('/input').on('connection', function(socket){
       users['input']--;
       console.log("Input user disconnected");
   })
+
+  socket.on('voice-input', function(input){
+    order = input;
+    console.log("Order left to press: " + order);
+    io.of('/prisoner').to(prisoners[order[0]-1]).emit('message', 'Press your button');
+  })
 });
 
 var prisoner_socket = io.of('/prisoner').on('connection', function(socket){
@@ -60,8 +65,6 @@ var prisoner_socket = io.of('/prisoner').on('connection', function(socket){
     console.log("Prisoner " + users['prisoners'] + " disconnected");
     users['prisoners']--;
   })
-
-  io.of('/prisoner').to(prisoners[order[0]-1]).emit('message', 'Press your button');
 
   socket.on('button-press', function(id) {
     
