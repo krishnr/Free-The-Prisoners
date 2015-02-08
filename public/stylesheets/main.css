@@ -1,0 +1,28 @@
+.columns {
+  text-align: center;
+}
+
+.right {
+  float: right;
+}
+
+.left {
+  float: left;
+}
+
+.title {
+  margin-top: 25%;
+}
+
+.buttons {
+  margin-top: 75px;
+  margin-bottom: 30px;
+}
+
+.button {
+  width: 200px;
+}
+
+#message {
+  color: tomato;
+}

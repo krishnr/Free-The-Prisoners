@@ -1,0 +1,24 @@
+extends template
+
+block body_content
+  div.container
+    div.row
+      div.twelve.columns.title
+        h1 Who are you?
+      
+    div.row.buttons
+      div.six.columns
+        a(href="/input", target="_blank").button.button-primary.right Voice Inputter
+      
+      div.six.columns
+        a(href="/prisoner" target="_blank").button.button-primary.left Prisoner
+      
+
+    div.twelve.columns
+      p 
+        | (Opens in a new tab) 
+        br
+        | Max: 4 prisoners and 1 voice inputter
+
+  script(type="text/javascript").
+    var socket = io();

@@ -1,0 +1,16 @@
+{
+  "name": "free-the-prisoners",
+  "version": "0.0.1",
+  "description": "Pebble coding challenge",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/krishnr/Free-The-Prisoners"
+  },
+  "author": "Krishn Ramesh",
+  "homepage": "https://github.com/krishnr/Free-The-Prisoners",
+  "dependencies": {
+    "express": "^4.11.2",
+    "jade": "^1.9.2",
+    "socket.io": "^1.3.3"
+  }
+}
