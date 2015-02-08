@@ -4,8 +4,11 @@ This webapp is an implementation of a solution to Pebble’s coding challenge fo
 
 ## How to run the app
 
-1. Download the whole repository to your computer
-2. Run the app by running `node server.js`
+1. Download this repository to your computer
+2. Run the app by running `node index.js` and heading to `localhost:3000` on your browser (Chrome only)
+3. On the index page, click the "Voice Inputter" button once and the "Prisoner" button 4 times to set the problem up.
+4. Head to the voice inputter page you just opened, and speak out your instructions (after accepting microphone permissions).
+5. Go through the prisoner pages to see whose turn it is to press the button. Repeat until the prisoners are free.
 
 ## The Problem
 Let’s start off with the wacky problem:
@@ -18,24 +21,33 @@ Let’s start off with the wacky problem:
 
 ## My Solution
 
-I’ve decided to build a webapp using Node + Express. socket.io will handle the websockets that will push commands from the server and receive commands from the clients. The annyang library will handle the voice commands that the first prisoner dictates.
+I’ve decided to build a webapp using Node + Express. socket.io will handle the websockets that will push commands from the server and receive commands from the clients. The annyang library will handle the voice commands that the first prisoner dictates. Basic styling is done with the help of SkeletonCSS.
 
 ### Application Flow
-1. Prisoner 1’s computer is running the “Input” page of the web app. He dictates the voice commands to his browser. He begins by yelling “Start” and ends by yelling “Stop”. The button order is just yelled out like “1 4 2 3 1 ...” etc.
+1. The voice inputter’s computer is running the “Input” page of the web app. He dictates the voice commands to his browser. He begins by yelling “Start” and ends by yelling “Stop”. The button order is just yelled out like “1 4 2 3 1 ...” etc.
 
 2. Annyang parses the voice input and stores the button order instructions, which it sends to the Node server.
 
-3. The server then opens a connection with the room corresponding to the first button press, 1 in this case. It indicates to the prisoner in the room that it’s their turn to press the button. 
+3. The server then sends a "Press the button" message to the room corresponding to the first button press, 1 in this case. It indicates to the prisoner in the room that it’s their turn to press the button. 
 
-4. The prisoner presses the button and when it is received by the server, the server sends an acknowledgement to the prisoner. During this whole time, all the other prisoners see a message that says “Please wait until instructed to press the button”.
+4. During this whole time, all the other prisoners see a message that says “Please wait until instructed to press the button”.
 
-5. This process repeats until the instructions are exhausted, at which point the server outputs “Free them!” and the prisoners are released.
+5. This process repeats until all the buttons are pressed in the right order, at which point the server outputs “Free them!” and the prisoners are released.
 
 ### Design Decisions
 
-1. The first prisoners yells out all the instructions at once in a bulk input rather than inputting them one at a time. This means that the first prisoner is not involved anymore after he’s given his inputs. He does not need to receive any feedback.
+- The voice inputter yells out all the instructions at once in a bulk input rather than inputting them one at a time. This means that he is not involved anymore after he’s given his inputs. He does not need to receive any feedback.
 
-2. Only the prisoner whose turn it is to press the button will receive an instruction from the server. The other prisoners need not know what’s going on. They will simply wait until it’s their turn to press the button.
+- Only the prisoner whose turn it is to press the button will receive an instruction from the server. The other prisoners need not know what’s going on. They will simply wait until it’s their turn to press the button.
+
+
+## If I had more time I would ...
+
+- Write more unit tests (sorry, I'm still fairly new to JS)
+- Make the app more scalable to allow for multiple voice inputters and multiple groups of prisoners
+- Keep track of prisoners disconnecting
+  - Right now, the app assumes that prisoners don't have any means to disconnect their socket connection to the server
+- Push the web app to production and run it on multiple computers to have a real life simulation of the problem
 
 ## Scaling the problem
 
