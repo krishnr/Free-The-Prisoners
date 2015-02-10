@@ -5,41 +5,70 @@ block body_content
     div.row
       div.12.columns.title
         h1 Instructions for input
-        ol
+        ol.input-instructions
           li When you are ready to begin reading the order, say "Start"
           li Clearly read the numbers in order (eg. "1  4  3  2  1")
           li Say "Reset" at any time if you made a mistake
-          li When all the numbers show up properly, say "Send" to send the instructions off to the server
+          li When all the numbers show up properly below, say "Send" to send the instructions off to the server
 
-        p <strong> Input: </strong>
-        div#input
+        div.shaded-box
+          p <strong> Recorded Input: </strong> 
+            h5#input
   
   script(src="/socket.io/socket.io.js")
   script(src="http://code.jquery.com/jquery-1.11.1.js")
   script(src="//cdnjs.cloudflare.com/ajax/libs/annyang/1.5.0/annyang.min.js")
   script(type="text/javascript").
+    
     var socket = io('localhost:3000/input');
     var inputString = "";
+    var orderArray = [];
+
+    // Can be changed to include more valid inputs. For now though, there are only 4 rooms.
+    var validInputs = [1, 2, 3, 4];
 
     if (annyang) {
-
+      
+      // Record method takes in as input everything that is said after "Start"
       var record = function(input) {
         inputString = input;
-        $('#input').text(input);
+
+        // Break up the input string into individual integers/characters
+        inputArray = inputString.split("");
+
+        // iterate through the inputArray and check if the input is one of the valid inputs
+        // if it is, push it into the orderArray which will be emitted to the server
+        for(var i=0; i<inputArray.length; i++) { 
+          var input = parseInt(inputArray[i]);
+          if(validInputs.indexOf(input) != -1 ) {
+            orderArray.push(input);
+          }
+        }
+        $('#input').text(orderArray);
       }
   
+      // clear everything
       var reset = function() {
-        inputString = ""
+        inputString = "";
+        orderArray = [];
         $('#input').text("");
       }
 
+      // emit orderArray to server
+      // if orderArray is empty, notify user
       var send = function() {
-        inputArray = inputString.split("");
-        for(var i=0; i<inputArray.length; i++) { inputArray[i] = parseInt(inputArray[i]); }
-        socket.emit('voice-input', inputArray);
-        $('#input').text("Sent to server!");
+        if(orderArray.length == 0) {
+          $("#input").text("You didn't give any instructions!");
+        } else {
+          socket.emit('voice-input', orderArray);
+          $('#input').text("Sent to server!");
+        }
       }
 
+      // Defining 3 main commands
+      // To enter input, say "Start" followed immediately by your instructions
+      // Say "Reset" to reset everything in case of improper voice parsing
+      // Say "Send" to shoot off your instructions to the server
       var commands = {
         'start *input': record,
         'reset': reset,
