@@ -4,11 +4,12 @@ This webapp is an implementation of a solution to Pebble’s coding challenge fo
 
 ## How to run the app
 
-1. Either clone this repo to your computer by running `git clone https://github.com/krishnr/Free-The-Prisoners.git` or download it as a zip [here](https://github.com/krishnr/Free-The-Prisoners/archive/master.zip)
-2. Run the app by running `node index.js` and heading to `localhost:3000` on your browser (Chrome only)
-3. On the index page, click the "Voice Inputter" button once and the "Prisoner" button 4 times to set the problem up.
-4. Head to the voice inputter page you just opened, and speak out your instructions (after accepting microphone permissions).
-5. Go through the prisoner pages to see whose turn it is to press the button. Repeat until the prisoners are free.
+1. Either clone this repo to your computer by running `git clone https://github.com/krishnr/Free-The-Prisoners.git` or download it as a zip [here](https://github.com/krishnr/Free-The-Prisoners/archive/master.zip).
+2. Ensure you have [Node](http://nodejs.org/) installed. Then run `npm install` to get all the necessary packages.
+3. Run the app by running `node index.js` and heading to `localhost:3000` on your browser (Chrome only)
+4. On the index page, click the "Voice Inputter" button once and the "Prisoner" button 4 times to set the problem up.
+5. Head to the voice inputter page you just opened, and speak out your instructions (after accepting microphone permissions).
+6. Go through the prisoner pages to see whose turn it is to press the button. Repeat until the prisoners are free.
 
 ## The Problem
 Let’s start off with the wacky problem:
@@ -53,6 +54,6 @@ I’ve decided to build a webapp using Node + Express. socket.io will handle the
 
 Suppose the problem needs to be scaled to multiple groups of rooms all with different orders the button needs to be pressed.
 
-All this would really change is the input. The first prisoner would have to specify which group of rooms as well as which room number. For example, if the first instruction was for room #4 of group #2, the first prisoner would yell “G2R4”. The server would then know exactly which connection to send the instruction.
+All this would really change is the input. The first prisoner would have to specify which group of rooms as well as which room number. For example, if the first instruction was for room #4 of group #2, the first prisoner would yell “G2R4”. Each room would have its own socket namespace from which the server would know exactly where to send each instruction.
 
 Nothing really changes for all the prisoners in the rooms. They will still wait and watch until it’s their turn to hit the button.
