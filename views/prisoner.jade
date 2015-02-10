@@ -5,8 +5,9 @@ block body_content
     div.row
       div.12.columns.title
         h1.prisonerTitle Prisoner ##{prisonerNumber}
-        h2 Please wait until instructed to press the button.
-        h2#message #{message}
+        h3 Please wait until instructed to press the button.
+        h5 (instruction will appear below in <span class="tomato"> red </span>)
+        h2#message.tomato #{message}
         a(href="javascript:void(0)").button.button-primary#button Button
 
   script(src="/socket.io/socket.io.js")
@@ -14,10 +15,14 @@ block body_content
   script(type="text/javascript").
     var socket = io('localhost:3000/prisoner');
 
+    // If it is this prisoner's turn to press a button, he will recieve a message
+    // which will be displayed in tomato red
     socket.on('message', function(msg){
       $("#message").text(msg);
     });
 
+    // When button is clicked, let server know the ID of the prisoner who clicked it
+    // to verify that it was the right prisoner in the order of instructions
     $('#button').click(function() {
       socket.emit('button-press', socket.id);
     });
