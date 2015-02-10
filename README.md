@@ -4,7 +4,7 @@ This webapp is an implementation of a solution to Pebble’s coding challenge fo
 
 ## How to run the app
 
-1. Download this repository to your computer
+1. Either clone this repo to your computer by running `git clone https://github.com/krishnr/Free-The-Prisoners.git` or download it as a zip [here](https://github.com/krishnr/Free-The-Prisoners/archive/master.zip)
 2. Run the app by running `node index.js` and heading to `localhost:3000` on your browser (Chrome only)
 3. On the index page, click the "Voice Inputter" button once and the "Prisoner" button 4 times to set the problem up.
 4. Head to the voice inputter page you just opened, and speak out your instructions (after accepting microphone permissions).
