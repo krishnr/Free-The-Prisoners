@@ -2,6 +2,8 @@
 
 This webapp is an implementation of a solution to Pebble’s coding challenge for their summer 2015 web developer position.
 
+Disclaimer: I'm much better at Ruby (Rails) than I am at JavaScript, but I gave this app my best shot and everything works as expected.
+
 ## How to run the app
 
 1. Either clone this repo to your computer by running `git clone https://github.com/krishnr/Free-The-Prisoners.git` or download it as a zip [here](https://github.com/krishnr/Free-The-Prisoners/archive/master.zip).
